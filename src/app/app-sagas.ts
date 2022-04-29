@@ -1,7 +1,7 @@
 import { authAPI, MeResponseType } from '../api/todolists-api';
 import { setIsLoggedInAC } from '../features/Login/auth-reducer';
 import { put, call, takeEvery } from 'redux-saga/effects';
-import { setAppInitializedAC } from './app-reducer';
+import { setAppInitializedAC, setAppStatusAC } from './app-reducer';
 
 export function* initializeAppWorkerSaga() {
 	const data: MeResponseType = yield call(authAPI.me);

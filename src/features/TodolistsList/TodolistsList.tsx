@@ -1,6 +1,13 @@
+import { Grid, Paper } from '@material-ui/core';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { TaskStatuses } from '../../api/todolists-api';
 import { AppRootStateType } from '../../app/store';
+import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
+import { addTask, removeTaskAction } from '../TasksSagas';
+import { TasksStateType, updateTaskTC } from './tasks-reducer';
+import { Todolist } from './Todolist/Todolist';
 import {
 	addTodolistTC,
 	changeTodolistFilterAC,
@@ -10,13 +17,6 @@ import {
 	removeTodolistTC,
 	TodolistDomainType,
 } from './todolists-reducer';
-import { addTaskTC, TasksStateType, updateTaskTC } from './tasks-reducer';
-import { TaskStatuses } from '../../api/todolists-api';
-import { Grid, Paper } from '@material-ui/core';
-import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
-import { Todolist } from './Todolist/Todolist';
-import { Redirect } from 'react-router-dom';
-import { removeTaskAction } from '../TasksSagas';
 
 type PropsType = {
 	demo?: boolean;
@@ -48,10 +48,14 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 		dispatch(action);
 	};
 
-	const addTask = useCallback(function(title: string, todolistId: string) {
-		const thunk = addTaskTC(title, todolistId);
-		dispatch(thunk);
-	}, []);
+	const addTaskCallback = useCallback(function(
+		title: string,
+		todolistId: string
+	) {
+		const action = addTask(title, todolistId);
+		dispatch(action);
+	},
+	[]);
 
 	const changeStatus = useCallback(function(
 		id: string,
@@ -121,7 +125,7 @@ export const TodolistsList: React.FC<PropsType> = ({ demo = false }) => {
 									tasks={allTodolistTasks}
 									removeTask={removeTask}
 									changeFilter={changeFilter}
-									addTask={addTask}
+									addTask={addTaskCallback}
 									changeTaskStatus={changeStatus}
 									removeTodolist={removeTodolist}
 									changeTaskTitle={changeTaskTitle}

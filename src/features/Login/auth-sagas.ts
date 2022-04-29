@@ -17,8 +17,8 @@ export function* logoutWorkerSaga(action: ReturnType<typeof logout>) {
 	yield put(setAppStatusAC('loading'));
 	const res = yield call(authAPI.logout);
 	if (res.data.resultCode === 0) {
-		put(setIsLoggedInAC(false));
-		put(setAppStatusAC('succeeded'));
+		yield put(setIsLoggedInAC(false));
+		yield put(setAppStatusAC('succeeded'));
 	}
 }
 
