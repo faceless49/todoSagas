@@ -20,7 +20,6 @@ export function* removeTaskWorkerSaga(
 ) {
 	yield call(todolistsAPI.deleteTask, action.todolistId, action.taskId);
 	yield put(removeTaskAC(action.taskId, action.todolistId));
-	console.log('removetaskworker');
 }
 
 export const removeTaskAction = (taskId: string, todolistId: string) => ({
@@ -32,5 +31,4 @@ export const removeTaskAction = (taskId: string, todolistId: string) => ({
 export function* tasksWatcherSaga() {
 	yield takeEvery('TASKS/FETCH-TASKS', fetchTasksWorkerSaga);
 	yield takeEvery('TASKS/REMOVE-TASK', removeTaskWorkerSaga);
-	console.log('removetaskwatcher');
 }

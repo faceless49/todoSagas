@@ -13,7 +13,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
-import { logoutTC } from '../features/Login/auth-reducer';
+import { logout } from '../features/Login/auth-sagas';
 import { Login } from '../features/Login/Login';
 import { TodolistsList } from '../features/TodolistsList/TodolistsList';
 import { RequestStatusType } from './app-reducer';
@@ -42,7 +42,7 @@ function App({ demo = false }: PropsType) {
 	}, []);
 
 	const logoutHandler = useCallback(() => {
-		dispatch(logoutTC());
+		dispatch(logout());
 	}, []);
 
 	if (!isInitialized) {

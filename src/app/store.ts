@@ -1,17 +1,14 @@
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { all, takeEvery } from 'redux-saga/effects';
+import { all } from 'redux-saga/effects';
 import thunkMiddleware from 'redux-thunk';
 import { authReducer } from '../features/Login/auth-reducer';
-import {
-	fetchTasksWorkerSaga,
-	removeTaskWorkerSaga,
-	tasksWatcherSaga,
-} from '../features/TasksSagas';
+import { authWatcherSaga } from '../features/Login/auth-sagas';
+import { tasksWatcherSaga } from '../features/TasksSagas';
 import { tasksReducer } from '../features/TodolistsList/tasks-reducer';
 import { todolistsReducer } from '../features/TodolistsList/todolists-reducer';
 import { appReducer } from './app-reducer';
-import { appWatcherSaga, initializeAppWorkerSaga } from './app-sagas';
+import { appWatcherSaga } from './app-sagas';
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
@@ -38,7 +35,7 @@ export type AppRootStateType = ReturnType<typeof rootReducer>;
 // * Take Every принимает 2 параметра 1 - экшн активатор, 2 воркерную сага, которую нужноо активировать когда кто то задиспатчит экшн который в саг вотчере
 //
 function* rootWatcher() {
-	yield all([appWatcherSaga(), tasksWatcherSaga()]);
+	yield all([appWatcherSaga(), tasksWatcherSaga(), authWatcherSaga()]);
 }
 
 // setTimeout(() => {
