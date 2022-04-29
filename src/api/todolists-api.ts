@@ -62,7 +62,11 @@ export type LoginParamsType = {
 	rememberMe: boolean;
 	captcha?: string;
 };
-
+export type MeResponseType = ResponseType<{
+	id: number;
+	email: string;
+	login: string;
+}>;
 export const authAPI = {
 	login(data: LoginParamsType) {
 		const promise = instance.post<ResponseType<{ userId?: number }>>(
@@ -78,10 +82,8 @@ export const authAPI = {
 		return promise;
 	},
 	me() {
-		const promise = instance.get<
-			ResponseType<{ id: number; email: string; login: string }>
-		>('auth/me');
-		return promise;
+		const promise = instance.get<MeResponseType>('auth/me');
+		return promise.then(res => res.data);
 	},
 };
 
